@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activities.MainActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/top"
+        app:layout_constraintBottom_toTopOf="@+id/select">
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#4c88a3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="闲余"
+            android:textSize="28sp"
+            android:fontFamily="@font/huamao"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <ImageView
+            android:id="@+id/write"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/icon_write"
+            android:layout_marginRight="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/setting"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/icon_setting"
+            android:layout_marginRight="8dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/select"
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:background="#4c88a3"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginTop="5dp">
+
+            <RadioButton
+                android:id="@+id/Task"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/icon_task_white"
+                android:text="任务大厅"
+                android:textColor="#ffdfdf"
+                android:button="@null"
+                android:gravity="center"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/money"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:drawableTop="@drawable/icon_money_gray"
+                android:text="钱包"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+            <RadioButton
+                android:id="@+id/my"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:drawableTop="@drawable/icon_my_gray"
+                android:text="我的"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:layout_weight="1"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
