@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.RegisterActivity">
+
+    <TextView
+        android:id="@+id/register_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="闲余"
+        android:textSize="40sp"
+        android:fontFamily="@font/huamao"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/register_by_message_info"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_marginTop="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_app_name">
+
+        <TextView
+            android:id="@+id/register_by_message_phone"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:hint="手机账号"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/register_by_message_message"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:hint="验证码"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintTop_toBottomOf="@id/register_by_message_phone"
+            app:layout_constraintLeft_toLeftOf="@id/register_by_message_phone"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/register_by_message_get_message"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="获取验证码"
+            android:background="@drawable/register_btn"
+            app:layout_constraintLeft_toRightOf="@id/register_by_message_message"
+            app:layout_constraintTop_toTopOf="@id/register_by_message_message"
+            app:layout_constraintBottom_toBottomOf="@id/register_by_message_message"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/register_OK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/register_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_by_message_info"/>
+
+    <Button
+        android:id="@+id/register_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="清空"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/register_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_by_message_info"/>
+
+
+    <TextView
+        android:id="@+id/goto_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="老用户登录"
+        android:textColor="#7B68EE"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
