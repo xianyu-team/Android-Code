@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Get_user_followings_or_fans_confirm_packet implements Serializable {
     int code;
     String message;
-    ArrayList<User> user;
+    ArrayList<followings> follower;
 
     public void setCode(int code) {
         this.code = code;
@@ -14,8 +14,8 @@ public class Get_user_followings_or_fans_confirm_packet implements Serializable 
         this.message = message;
     }
 
-    public void setUser(ArrayList<User> user) {
-        this.user = user;
+    public void setFollower(ArrayList<followings> follower) {
+        this.follower = follower;
     }
 
     public String getMessage() {
@@ -26,7 +26,7 @@ public class Get_user_followings_or_fans_confirm_packet implements Serializable 
         return code;
     }
 
-    public ArrayList<User> getUser() {
-        return user;
+    public ArrayList<followings> getFollower() {
+        return follower;
     }
 }

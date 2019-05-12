@@ -1,10 +1,10 @@
-import java.io.Serializable;
-import java.util.ArrayList;
 
-public class Get_transaction_history_confirm_packet implements Serializable {
+import java.io.Serializable;
+
+public class Login_confirm_packet implements Serializable {
     int code;
     String message;
-    ArrayList<bills> bill;
+    int user_fillln;
 
     public void setMessage(String message) {
         this.message = message;
@@ -14,8 +14,8 @@ public class Get_transaction_history_confirm_packet implements Serializable {
         this.code = code;
     }
 
-    public void setBill(ArrayList<bills> bill) {
-        this.bill = bill;
+    public void setUser_fillln(int user_fillln) {
+        this.user_fillln = user_fillln;
     }
 
     public String getMessage() {
@@ -26,7 +26,7 @@ public class Get_transaction_history_confirm_packet implements Serializable {
         return code;
     }
 
-    public ArrayList<bills> getBill() {
-        return bill;
+    public int getUser_fillln() {
+        return user_fillln;
     }
 }

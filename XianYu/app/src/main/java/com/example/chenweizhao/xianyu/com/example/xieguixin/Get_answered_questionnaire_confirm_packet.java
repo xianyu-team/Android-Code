@@ -1,9 +1,9 @@
 import java.io.Serializable;
-
-public class Get_user_balance_confirm implements Serializable {
+import java.util.ArrayList;
+public class Get_answered_questionnaire_confirm implements Serializable {
     int code;
     String message;
-    int user_balance;
+    ArrayList<answerSheet> answerSheet;
 
     public void setCode(int code) {
         this.code = code;
@@ -13,12 +13,8 @@ public class Get_user_balance_confirm implements Serializable {
         this.message = message;
     }
 
-    public void setUser_balance(int user_balance) {
-        this.user_balance = user_balance;
-    }
-
-    public int getUser_balance() {
-        return user_balance;
+    public void setAnswerSheet(ArrayList<answerSheet> answerSheet) {
+        this.answerSheet = answerSheet;
     }
 
     public int getCode() {
@@ -27,5 +23,9 @@ public class Get_user_balance_confirm implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    public ArrayList<answerSheet> getAnswerSheet() {
+        return answerSheet;
     }
 }

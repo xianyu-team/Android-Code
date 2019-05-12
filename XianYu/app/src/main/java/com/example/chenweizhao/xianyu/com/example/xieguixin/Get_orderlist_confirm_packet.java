@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Get_orderlist_confirm_packet implements Serializable {
     int code;
     String message;
-    ArrayList<order> orders;
+    ArrayList<Tasks> tasks;
 
     public void setMessage(String message) {
         this.message = message;
@@ -14,12 +14,12 @@ public class Get_orderlist_confirm_packet implements Serializable {
         this.code = code;
     }
 
-    public void setOrders(ArrayList<order> orders) {
-        this.orders = orders;
+    public void setTasks(ArrayList<Tasks> tasks) {
+        this.tasks = tasks;
     }
 
-    public ArrayList<order> getOrders() {
-        return orders;
+    public ArrayList<Tasks> getTasks() {
+        return tasks;
     }
 
     public int getCode() {
