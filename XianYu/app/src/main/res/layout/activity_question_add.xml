@@ -93,7 +93,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_tTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
         <TextView
             android:id="@+id/Textview_question_B"
@@ -140,7 +140,7 @@
             android:layout_marginTop="10dp"
             app:layout_constraintLeft_toRightOf="@id/Textview_question_A"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_tTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"/>
         <EditText
             android:id="@+id/question_B"
             android:layout_width="0dp"
