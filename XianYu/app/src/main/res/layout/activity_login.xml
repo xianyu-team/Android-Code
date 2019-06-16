@@ -42,6 +42,7 @@
             android:id="@+id/login_by_message"
             android:layout_width="120dp"
             android:layout_height="60dp"
+            android:background="#888888"
             android:text="短信登录"
             android:textSize="20sp"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -57,7 +58,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_two_btn">
 
-        <TextView
+        <EditText
             android:id="@+id/login_by_password_phone"
             android:layout_width="200dp"
             android:layout_height="50dp"
@@ -69,7 +70,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/login_by_password_password"
             android:layout_width="200dp"
             android:layout_height="50dp"
@@ -90,13 +91,14 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/login_by_message_info"
         android:layout_width="240dp"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
         android:background="#ffffff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_two_btn">
 
-        <TextView
+        <EditText
             android:id="@+id/login_by_message_phone"
             android:layout_width="200dp"
             android:layout_height="50dp"
@@ -108,7 +110,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
+        <EditText
             android:id="@+id/login_by_message_message"
             android:layout_width="110dp"
             android:layout_height="50dp"

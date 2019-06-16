@@ -11,8 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Activities.SendTaskActivity">
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +24,10 @@
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.SetPasswordActivity" />
         <activity android:name=".Activities.QuestionnaireDesignActivity" />
+        <activity android:name=".Activities.FindPasswordActivity1" />
+        <activity android:name=".Activities.FindPasswordActivity2_ChangePassword"/>
         <activity android:name=".Activities.QuestionnaireShowActivity" />
+        <activity android:name=".Activities.MainActivity"/>
         <activity android:name=".Activities.QuestionAddActivity"></activity>
     </application>
 
