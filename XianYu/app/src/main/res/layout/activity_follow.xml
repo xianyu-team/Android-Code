@@ -51,8 +51,9 @@
         tools:layout_editor_absoluteX="0dp">
 
         <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/follow_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         </ListView>
 
     </android.support.constraint.ConstraintLayout>
