@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                             android:id="@+id/account_university"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="中山大学"
+                            android:text="野鸡大学"
                             android:textColor="#b2dfdb"
                             app:layout_constraintLeft_toRightOf="@+id/account_profile"
                             />
@@ -124,7 +124,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintLeft_toRightOf="@id/account_follow"
                                 android:layout_marginLeft="20dp"
-                                android:text="关注了0人"
+                                android:text="关注了10人"
                                 android:textColor="#b2dfdb"
                                 />
 
@@ -161,7 +161,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintRight_toRightOf="parent"
                                 android:layout_marginRight="20dp"
-                                android:text="关注者0人"
+                                android:text="关注者10人"
                                 android:textColor="#b2dfdb"
                                 />
 
@@ -217,6 +217,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/account_assignment_put_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_right1"
@@ -262,6 +263,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/account_assignment_get_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_right1"
@@ -289,4 +291,4 @@
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>

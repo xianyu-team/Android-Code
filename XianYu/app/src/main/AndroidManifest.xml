@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.AccountActivity"/>
         <activity android:name=".Activities.PerfectInformationActivity" />
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.SetPasswordActivity" />
@@ -29,6 +32,11 @@
         <activity android:name=".Activities.QuestionnaireShowActivity" />
         <activity android:name=".Activities.MainActivity"/>
         <activity android:name=".Activities.QuestionAddActivity"></activity>
+        <activity android:name=".Activities.InfoActivity"></activity>
+        <activity android:name=".Activities.AssignmentActivity"></activity>
+        <activity android:name=".Activities.FollowActivity"></activity>
+        <activity android:name=".Activities.FollowDetailActivity"></activity>
+        <activity android:name=".Activities.SendTaskActivity"></activity>
     </application>
 
 </manifest>
