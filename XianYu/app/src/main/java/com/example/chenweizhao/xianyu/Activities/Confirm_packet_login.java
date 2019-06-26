@@ -44,6 +44,15 @@ public class Confirm_packet_login implements Serializable {
          */
 
         private int user_fillln;
+        private String verification_code;
+
+        public void setVerification_code(String verification_code) {
+            this.verification_code = verification_code;
+        }
+
+        public String getVerification_code() {
+            return verification_code;
+        }
 
         public int getUser_fillln() {
             return user_fillln;

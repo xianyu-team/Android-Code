@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Interceptor;
@@ -87,35 +88,7 @@ public class FindPasswordActivity2_ChangePassword extends AppCompatActivity {
                             .connectTimeout(2, TimeUnit.SECONDS)
                             .readTimeout(2, TimeUnit.SECONDS)
                             .writeTimeout(2, TimeUnit.SECONDS)
-                            .addInterceptor(new Interceptor() {
-                                @Override
-                                public Response intercept(Chain chain) throws IOException {
-                                    Request request = chain.request()
-                                            .newBuilder()
-                                            .removeHeader("Content-Type")//移除旧的
-                                            .addHeader("Content-Type", "application/json")//添加真正的头部
-                                            .build();
-                                    Response originalResponse = chain.proceed(request);
-                                    if (!originalResponse.headers("set-cookie").isEmpty()) {
-                                        //Toast.makeText(SendTaskActivity.this, "cookie:", Toast.LENGTH_SHORT).show();
-                                        StringBuffer sb = new StringBuffer();
-                                        for (int i = 0; i < originalResponse.headers("set-cookie").size(); i++) {
-                                            sb.append(originalResponse.headers("set-cookie").get(i));
-                                            sb.append("; ");
-                                        }
-                                        String temp = sb.toString();
-                                        temp = temp.replace(';', ' ');
-                                        temp = temp.replace('=', ' ');
-                                        String [] data = temp.split(" ");
-                                        //String temp = sb.toString();
-                                        Log.v("cookie", CSRF.getCsrf() + "a");
-                                        Log.v("cookie", "test");
-                                        CSRF.setCsrf(data[23]);
-                                        Log.v("cookie", CSRF.getCsrf());
-                                    }
-                                    return  originalResponse;
-                                }
-                            })
+                            .addInterceptor(new ReceivedCookiesInterceptor())
                             .build();
 
                     Retrofit retrofit = new Retrofit.Builder()
@@ -169,6 +142,5 @@ public class FindPasswordActivity2_ChangePassword extends AppCompatActivity {
         @POST("/user/password")
         Observable<Confirm_packet_login> postRegister(@Body ChangePasswordPacket ChangePasswordPacket);
     }
-
 
 }
