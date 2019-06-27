@@ -35,12 +35,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public class FollowActivity extends AppCompatActivity {
     ImageView back;
     TextView title;
     ListView follow;
     Boolean isFollow;
+    int userID;
     private List<Account> accounts = new ArrayList<>();
     private AccountAdapter accountAdapter;
 
@@ -56,6 +58,7 @@ public class FollowActivity extends AppCompatActivity {
     private void init() {
         Bundle bundle = getIntent().getExtras();
         isFollow = bundle.getBoolean("isFollow");
+        userID = bundle.getInt("userID");
         back = findViewById(R.id.follow_back);
         title = findViewById(R.id.follow_title);
         follow = findViewById(R.id.follow_list);
@@ -67,6 +70,7 @@ public class FollowActivity extends AppCompatActivity {
             //Toast.makeText(AssignmentActivity.this, "Assignment get", Toast.LENGTH_SHORT).show();
             title.setText("我的粉丝");
         }
+        //Toast.makeText(FollowActivity.this, "UserID: " + userID,  Toast.LENGTH_SHORT).show();
         accounts.add(new Account(1, null, "白点", "中山大学"));
         accounts.add(new Account(2, null, "余霜", "中山大学"));
         accountAdapter = new AccountAdapter(FollowActivity.this, R.layout.item_account, accounts);
@@ -88,6 +92,12 @@ public class FollowActivity extends AppCompatActivity {
 
         @GET("/user/fans")
         Observable<Fan_packets> getFansId();
+
+        @GET("/user/{ID}/fans")
+        Observable<Fan_packets> getFansIdByID(@Path("ID") int id);
+
+        @GET("/user/{ID}/followings")
+        Observable<Following_packets> getFollowingsIdByID(@Path("ID") int id);
 
         @POST("/user/batch/information")
         Observable<Batch_user> getUsers(@Body Batch_Id batch_id);
@@ -118,105 +128,244 @@ public class FollowActivity extends AppCompatActivity {
 
             final FollowActivity.getFollow service = retrofit.create(FollowActivity.getFollow.class);
             if (isFollow) {
-                service.getFollowingsId()
-                        .subscribeOn(Schedulers.io())//请求在新的线程中执行
-                        .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
-                        .subscribe(new DisposableObserver<Following_packets>() {
-                            @Override
-                            public void onNext(Following_packets following_packets) {
-                                if (following_packets.getCode() == 200) {
-                                    Toast.makeText(FollowActivity.this, "查询成功，关注者的个数为： " + following_packets.getData().getFollowings().size(), Toast.LENGTH_SHORT).show();
-                                    Batch_Id batch_id = new Batch_Id();
-                                    List<Batch_Id.UserIdsBean> temp = new ArrayList<>();
-                                    for (int i = 0; i < following_packets.getData().getFollowings().size(); i++) {
-                                        Batch_Id.UserIdsBean userIdsBean = new Batch_Id.UserIdsBean();
-                                        userIdsBean.setUser_id(following_packets.getData().getFollowings().get(i).getFollowing_id());
-                                        temp.add(userIdsBean);
+                if (userID == -1) {
+                    service.getFollowingsId()
+                            .subscribeOn(Schedulers.io())//请求在新的线程中执行
+                            .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
+                            .subscribe(new DisposableObserver<Following_packets>() {
+                                @Override
+                                public void onNext(Following_packets following_packets) {
+                                    if (following_packets.getCode() == 200) {
+                                        Toast.makeText(FollowActivity.this, "查询成功，关注者的个数为： " + following_packets.getData().getFollowings().size(), Toast.LENGTH_SHORT).show();
+                                        List<Batch_Id.UserIdsBean> temp = new ArrayList<>();
+                                        for (int i = 0; i < following_packets.getData().getFollowings().size(); i++) {
+                                            Batch_Id.UserIdsBean userIdsBean = new Batch_Id.UserIdsBean();
+                                            userIdsBean.setUser_id(following_packets.getData().getFollowings().get(i).getFollowing_id());
+                                            temp.add(userIdsBean);
+                                        }
+                                        Batch_Id batch_id = new Batch_Id();
+                                        batch_id.setUser_ids(temp);
+                                        service.getUsers(batch_id)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new DisposableObserver<Batch_user>() {
+                                                    @Override
+                                                    public void onNext(Batch_user batch_user) {
+                                                        Toast.makeText(FollowActivity.this, "查询成功2，关注者的个数为： " + batch_user.getData().getUsers().size(), Toast.LENGTH_SHORT).show();
+                                                        if (batch_user.getData().getUsers().size() != 0) {
+                                                            for (int i = 0; i < batch_user.getData().getUsers().size(); i++) {
+                                                                Account account = new Account(batch_user.getData().getUsers().get(i).getUser().getUser_id(),batch_user.getData().getUsers().get(i).getUser().getUser_icon(),
+                                                                        batch_user.getData().getUsers().get(i).getUser().getUser_phone(), batch_user.getData().getUsers().get(i).getStudent().getStudent_university());
+                                                                accounts.add(account);
+                                                                accountAdapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onComplete() {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+
+                                                    }
+                                                });
+
                                     }
-                                    batch_id.setUser_ids(temp);
-                                    service.getUsers(batch_id)
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(new DisposableObserver<Batch_user>() {
-                                                @Override
-                                                public void onNext(Batch_user batch_user) {
-                                                    Toast.makeText(FollowActivity.this, "查询成功2，关注者的个数为： " + batch_user.getData().getUsers().size(), Toast.LENGTH_SHORT).show();
-                                                }
+                                }
 
-                                                @Override
-                                                public void onComplete() {
-
-                                                }
-
-                                                @Override
-                                                public void onError(Throwable e) {
-
-                                                }
-                                            });
+                                @Override
+                                public void onError(Throwable e) {
 
                                 }
-                            }
 
-                            @Override
-                            public void onError(Throwable e) {
+                                @Override
+                                public void onComplete() {
 
-                            }
+                                }
+                            });
+                }
+                else {
+                    service.getFollowingsIdByID(userID)
+                            .subscribeOn(Schedulers.io())//请求在新的线程中执行
+                            .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
+                            .subscribe(new DisposableObserver<Following_packets>() {
+                                @Override
+                                public void onNext(Following_packets following_packets) {
+                                    if (following_packets.getCode() == 200) {
+                                        Toast.makeText(FollowActivity.this, "查询成功，关注者的个数为： " + following_packets.getData().getFollowings().size(), Toast.LENGTH_SHORT).show();
+                                        List<Batch_Id.UserIdsBean> temp = new ArrayList<>();
+                                        for (int i = 0; i < following_packets.getData().getFollowings().size(); i++) {
+                                            Batch_Id.UserIdsBean userIdsBean = new Batch_Id.UserIdsBean();
+                                            userIdsBean.setUser_id(following_packets.getData().getFollowings().get(i).getFollowing_id());
+                                            temp.add(userIdsBean);
+                                        }
+                                        Batch_Id batch_id = new Batch_Id();
+                                        batch_id.setUser_ids(temp);
+                                        service.getUsers(batch_id)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new DisposableObserver<Batch_user>() {
+                                                    @Override
+                                                    public void onNext(Batch_user batch_user) {
+                                                        Toast.makeText(FollowActivity.this, "查询成功2，关注者的个数为： " + batch_user.getData().getUsers().size(), Toast.LENGTH_SHORT).show();
+                                                        if (batch_user.getData().getUsers().size() != 0) {
+                                                            for (int i = 0; i < batch_user.getData().getUsers().size(); i++) {
+                                                                Account account = new Account(batch_user.getData().getUsers().get(i).getUser().getUser_id(),batch_user.getData().getUsers().get(i).getUser().getUser_icon(),
+                                                                        batch_user.getData().getUsers().get(i).getUser().getUser_phone(), batch_user.getData().getUsers().get(i).getStudent().getStudent_university());
+                                                                accounts.add(account);
+                                                                accountAdapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    }
 
-                            @Override
-                            public void onComplete() {
+                                                    @Override
+                                                    public void onComplete() {
 
-                            }
-                        });
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+
+                                                    }
+                                                });
+
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                }
+
             }
             else {
-                service.getFansId()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DisposableObserver<Fan_packets>() {
-                            @Override
-                            public void onNext(Fan_packets fan_packets) {
-                                if (fan_packets.getCode() == 200) {
-                                    Toast.makeText(FollowActivity.this, "查询成功，粉丝的个数为： " + fan_packets.getData().getFans().size(), Toast.LENGTH_SHORT).show();
-                                    Batch_Id batch_id = new Batch_Id();
-                                    List<Batch_Id.UserIdsBean> temp = new ArrayList<>();
-                                    for (int i = 0; i < fan_packets.getData().getFans().size(); i++) {
-                                        Batch_Id.UserIdsBean userIdsBean = new Batch_Id.UserIdsBean();
-                                        userIdsBean.setUser_id(fan_packets.getData().getFans().get(i).getFan_id());
-                                        temp.add(userIdsBean);
+                if (userID == -1) {
+                    service.getFansId()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new DisposableObserver<Fan_packets>() {
+                                @Override
+                                public void onNext(Fan_packets fan_packets) {
+                                    if (fan_packets.getCode() == 200) {
+                                        Toast.makeText(FollowActivity.this, "查询成功，粉丝的个数为： " + fan_packets.getData().getFans().size(), Toast.LENGTH_SHORT).show();
+                                        List<Batch_Id.UserIdsBean> temp = new ArrayList<>();
+                                        for (int i = 0; i < fan_packets.getData().getFans().size(); i++) {
+                                            Batch_Id.UserIdsBean userIdsBean = new Batch_Id.UserIdsBean();
+                                            userIdsBean.setUser_id(fan_packets.getData().getFans().get(i).getFan_id());
+                                            temp.add(userIdsBean);
+                                        }
+                                        Batch_Id batch_id = new Batch_Id();
+                                        batch_id.setUser_ids(temp);
+                                        service.getUsers(batch_id)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new DisposableObserver<Batch_user>() {
+                                                    @Override
+                                                    public void onNext(Batch_user batch_user) {
+                                                        Toast.makeText(FollowActivity.this, "查询成功2，粉丝的个数为： " + batch_user.getData().getUsers().size(), Toast.LENGTH_SHORT).show();
+                                                        if (batch_user.getData().getUsers().size() != 0) {
+                                                            for (int i = 0; i < batch_user.getData().getUsers().size(); i++) {
+                                                                Account account = new Account(batch_user.getData().getUsers().get(i).getUser().getUser_id(),batch_user.getData().getUsers().get(i).getUser().getUser_icon(),
+                                                                        batch_user.getData().getUsers().get(i).getUser().getUser_phone(), batch_user.getData().getUsers().get(i).getStudent().getStudent_university());
+                                                                accounts.add(account);
+                                                                accountAdapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onComplete() {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        Log.v("error", e.toString());
+                                                    }
+                                                });
                                     }
-                                    batch_id.setUser_ids(temp);
-                                    service.getUsers(batch_id)
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(new DisposableObserver<Batch_user>() {
-                                                @Override
-                                                public void onNext(Batch_user batch_user) {
-                                                    Toast.makeText(FollowActivity.this, "查询成功2，粉丝的个数为： " + batch_user.getData().getUsers().size(), Toast.LENGTH_SHORT).show();
-                                                }
-
-                                                @Override
-                                                public void onComplete() {
-
-                                                }
-
-                                                @Override
-                                                public void onError(Throwable e) {
-                                                    Log.v("error", e.toString());
-                                                }
-                                            });
                                 }
-                            }
 
-                            @Override
-                            public void onError(Throwable e) {
+                                @Override
+                                public void onError(Throwable e) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onComplete() {
+                                @Override
+                                public void onComplete() {
 
-                            }
-                        });
+                                }
+                            });
+                }
+                else {
+                    service.getFansIdByID(userID)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new DisposableObserver<Fan_packets>() {
+                                @Override
+                                public void onNext(Fan_packets fan_packets) {
+                                    if (fan_packets.getCode() == 200) {
+                                        Toast.makeText(FollowActivity.this, "查询成功，粉丝的个数为： " + fan_packets.getData().getFans().size(), Toast.LENGTH_SHORT).show();
+                                        List<Batch_Id.UserIdsBean> temp = new ArrayList<>();
+                                        for (int i = 0; i < fan_packets.getData().getFans().size(); i++) {
+                                            Batch_Id.UserIdsBean userIdsBean = new Batch_Id.UserIdsBean();
+                                            userIdsBean.setUser_id(fan_packets.getData().getFans().get(i).getFan_id());
+                                            temp.add(userIdsBean);
+                                        }
+                                        Batch_Id batch_id = new Batch_Id();
+                                        batch_id.setUser_ids(temp);
+                                        service.getUsers(batch_id)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new DisposableObserver<Batch_user>() {
+                                                    @Override
+                                                    public void onNext(Batch_user batch_user) {
+                                                        Toast.makeText(FollowActivity.this, "查询成功2，粉丝的个数为： " + batch_user.getData().getUsers().size(), Toast.LENGTH_SHORT).show();
+                                                        if (batch_user.getData().getUsers().size() != 0) {
+                                                            for (int i = 0; i < batch_user.getData().getUsers().size(); i++) {
+                                                                Account account = new Account(batch_user.getData().getUsers().get(i).getUser().getUser_id(),batch_user.getData().getUsers().get(i).getUser().getUser_icon(),
+                                                                        batch_user.getData().getUsers().get(i).getUser().getUser_phone(), batch_user.getData().getUsers().get(i).getStudent().getStudent_university());
+                                                                accounts.add(account);
+                                                                accountAdapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onComplete() {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        Log.v("error", e.toString());
+                                                    }
+                                                });
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                }
+
             }
         }catch (Exception o) {
             Toast.makeText(FollowActivity.this, "抛出异常：" + o.toString(), Toast.LENGTH_SHORT).show();
@@ -257,9 +406,16 @@ public class FollowActivity extends AppCompatActivity {
                 cookie = cookie.replace(';', ' ');
                 cookie = cookie.replace('=', ' ');
                 String[] data = cookie.split(" ");
-                Header.setToken(data[1]);
-                Header.setSessionID(data[21]);
-
+                for (int i = 0; i < data.length; i++) {
+                    if(data[i].equals("sessionid")) {
+                        Header.setSessionID(data[i + 1]);
+                        i++;
+                    }
+                    if(data[i].equals("csrftoken")) {
+                        Header.setToken(data[i + 1]);
+                        i++;
+                    }
+                }
             }
             return originalResponse;
         }

@@ -17,15 +17,6 @@ public class SendTaskActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_task);
-        init();
     }
 
-    void init() {
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        taskId = bundle.getInt("taskId");
-        taskType = bundle.getInt("taskType");
-        Toast.makeText(SendTaskActivity.this, "taskId: " + taskId, Toast.LENGTH_SHORT).show();
-        Toast.makeText(SendTaskActivity.this, "taskType: " + taskType, Toast.LENGTH_SHORT).show();
-    }
 }
