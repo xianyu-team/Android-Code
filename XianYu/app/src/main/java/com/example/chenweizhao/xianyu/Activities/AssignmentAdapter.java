@@ -26,7 +26,7 @@ public class AssignmentAdapter extends ArrayAdapter<AssignmentCommon> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final AssignmentCommon assignmentCommon = getItem(position);
         View view;
         AssignmentAdapter.ViewHolder viewHolder;
@@ -50,11 +50,10 @@ public class AssignmentAdapter extends ArrayAdapter<AssignmentCommon> {
         viewHolder.right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("taskId", assignmentCommon.getTask_id());
-                bundle.putInt("taskType", assignmentCommon.getTask_type());
                 Intent intent = new Intent(context, SendTaskActivity.class);
-                intent.putExtras(bundle);
+                intent.putExtra("user_id", assignmentCommon.getUser_id());
+                intent.putExtra("task_id", assignmentCommon.getTask_id());
+                intent.putExtra("sketch", assignmentCommon.getTask_sketch());
                 context.startActivity(intent);
             }
         });

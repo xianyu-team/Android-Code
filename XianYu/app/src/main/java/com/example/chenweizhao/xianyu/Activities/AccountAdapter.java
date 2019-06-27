@@ -59,6 +59,7 @@ public class AccountAdapter extends ArrayAdapter<Account> {
         viewHolder.right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("userId", account.getUserId());
                 Intent intent = new Intent(context, FollowDetailActivity.class);

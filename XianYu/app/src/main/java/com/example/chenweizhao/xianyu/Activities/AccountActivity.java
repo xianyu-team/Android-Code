@@ -109,32 +109,6 @@ public class AccountActivity extends AppCompatActivity {
                         @Override
                         public void onNext(Confirm_packet_login confirm_packet_login) {
                             if (confirm_packet_login.getCode() == 200) {
-                                service.getUserProfile()
-                                        .subscribeOn(Schedulers.io())//请求在新的线程中执行
-                                        .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
-                                        .subscribe(new DisposableObserver<User_profile_packet>() {
-                                            @Override
-                                            public void onNext(User_profile_packet user_profile_packet) {
-                                                if (user_profile_packet.getCode() == 200) {
-                                                    profile.setImageBitmap(stringToBitmap(user_profile_packet.getData().getUser().getUser_icon()));
-                                                    nickName.setText(user_profile_packet.getData().getStudent().getStudent_name());
-                                                    university.setText(user_profile_packet.getData().getStudent().getStudent_university());
-                                                } else {
-                                                    Toast.makeText(AccountActivity.this, "查询失败: " + user_profile_packet.getMessage(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onError(Throwable e) {
-                                                Toast.makeText(AccountActivity.this, "访问失败：" + e.toString(), Toast.LENGTH_SHORT).show();
-                                                Log.i("test", "onError: " + e.toString());
-                                            }
-
-                                            @Override
-                                            public void onComplete() {
-
-                                            }
-                                        });
 
                                 service.getFollowings()
                                         .subscribeOn(Schedulers.io())//请求在新的线程中执行
@@ -158,6 +132,58 @@ public class AccountActivity extends AppCompatActivity {
 
                                             }
                                         });
+
+                                service.getFans()
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new DisposableObserver<Fan_packets>() {
+                                            @Override
+                                            public void onNext(Fan_packets fan_packets) {
+                                                if (fan_packets.getCode() == 200) {
+                                                    String s = "关注者" + fan_packets.getData().getFans().size() + "人";
+                                                    follower.setText(s);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+
+                                            @Override
+                                            public void onComplete() {
+
+                                            }
+                                        });
+
+                                service.getUserProfile()
+                                        .subscribeOn(Schedulers.io())//请求在新的线程中执行
+                                        .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
+                                        .subscribe(new DisposableObserver<User_profile_packet>() {
+                                            @Override
+                                            public void onNext(User_profile_packet user_profile_packet) {
+                                                if (user_profile_packet.getCode() == 200) {
+                                                    profile.setImageBitmap(stringToBitmap(user_profile_packet.getData().getUser().getUser_icon()));
+                                                    nickName.setText(user_profile_packet.getData().getStudent().getStudent_name());
+                                                    university.setText(user_profile_packet.getData().getStudent().getStudent_university());
+
+                                                } else {
+                                                    Toast.makeText(AccountActivity.this, "查询失败: " + user_profile_packet.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                Toast.makeText(AccountActivity.this, "访问失败：" + e.toString(), Toast.LENGTH_SHORT).show();
+                                                Log.i("test", "onError: " + e.toString());
+                                            }
+
+                                            @Override
+                                            public void onComplete() {
+
+                                            }
+                                        });
+
 
                             } else {
                                 Toast.makeText(AccountActivity.this, "失败: " + confirm_packet_login.getMessage(), Toast.LENGTH_SHORT).show();
@@ -218,6 +244,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFollow", true);
+                bundle.putInt("userID", -1);
                 Intent intent = new Intent(AccountActivity.this, FollowActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -229,6 +256,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFollow", false);
+                bundle.putInt("userID", -1);
                 Intent intent = new Intent(AccountActivity.this, FollowActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -259,6 +287,9 @@ public class AccountActivity extends AppCompatActivity {
 
         @GET("/user/followings")
         Observable<Following_packets> getFollowings();
+
+        @GET("/user/fans")
+        Observable<Fan_packets> getFans();
     }
 
     public class ReceivedCookiesInterceptor implements Interceptor {
@@ -286,9 +317,16 @@ public class AccountActivity extends AppCompatActivity {
                 cookie = cookie.replace(';', ' ');
                 cookie = cookie.replace('=', ' ');
                 String[] data = cookie.split(" ");
-                Header.setToken(data[1]);
-                Header.setSessionID(data[21]);
-
+                for (int i = 0; i < data.length; i++) {
+                    if(data[i].equals("sessionid")) {
+                        Header.setSessionID(data[i + 1]);
+                        i++;
+                    }
+                    if(data[i].equals("csrftoken")) {
+                        Header.setToken(data[i + 1]);
+                        i++;
+                    }
+                }
             }
             return originalResponse;
         }
