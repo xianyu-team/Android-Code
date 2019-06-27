@@ -62,14 +62,16 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phoneNum = phoneNumView.getText().toString();
-                if (phoneNum.length() != 11) return;
+                if (phoneNum.length() != 11) {
+
+                    Toast.makeText(RegisterActivity.this, "手机格式错误", Toast.LENGTH_SHORT).show();
+
+                    return;
+                }
                 check_internet();
 
                 try {
                     OkHttpClient build = new OkHttpClient.Builder()
-                            .connectTimeout(2, TimeUnit.SECONDS)
-                            .readTimeout(2, TimeUnit.SECONDS)
-                            .writeTimeout(2, TimeUnit.SECONDS)
                             .addInterceptor(new RegisterActivity.ReceivedCookiesInterceptor())
                             .build();
 
@@ -88,11 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                             .subscribe(new DisposableObserver<Confirm_packet_verification>() {
                                 @Override
                                 public void onNext(Confirm_packet_verification confirm_packet) {
-                                    if (confirm_packet.getCode() == 200) {
-                                        Toast.makeText(RegisterActivity.this, "验证码: " + confirm_packet.getMessage(), Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(RegisterActivity.this, "验证失败: " + confirm_packet.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
+                                    Toast.makeText(RegisterActivity.this, "短信验证码为：" + confirm_packet.getData().getVerification_code(), Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
@@ -120,9 +118,6 @@ public class RegisterActivity extends AppCompatActivity {
                 check_internet();
                 try {
                     OkHttpClient build = new OkHttpClient.Builder()
-                            .connectTimeout(2, TimeUnit.SECONDS)
-                            .readTimeout(2, TimeUnit.SECONDS)
-                            .writeTimeout(2, TimeUnit.SECONDS)
                             .addInterceptor(new RegisterActivity.ReceivedCookiesInterceptor())
                             .build();
 
