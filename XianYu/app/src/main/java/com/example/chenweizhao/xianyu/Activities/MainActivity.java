@@ -1,7 +1,9 @@
 package com.example.chenweizhao.xianyu.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -13,8 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.chenweizhao.xianyu.Fragments.AccountFragment;
 import com.example.chenweizhao.xianyu.Fragments.TaskFragment;
 import com.example.chenweizhao.xianyu.R;
 
@@ -22,12 +27,23 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager;
     Fragment taskFragment;
+    Fragment accountFragment;
     ImageView write;
     PopupWindow popupWindow;
     View popwindow_view;
     ConstraintLayout mDelivery;
     ConstraintLayout mOther;
     ConstraintLayout mQuestionnaire;
+
+    private RadioGroup mRadioGroup;
+    private RadioButton mTaskButton, mAccountButton, mMyButton;
+
+    Drawable taskWhite;
+    Drawable taskGray;
+    Drawable accountWhite;
+    Drawable accountGray;
+    Drawable myWhite;
+    Drawable myGray;
 
 
     @Override
@@ -47,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         //
         taskFragment = new TaskFragment();
+        accountFragment = new AccountFragment();
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, taskFragment);
@@ -58,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
         mDelivery = popwindow_view.findViewById(R.id.take_expressage);
         mQuestionnaire = popwindow_view.findViewById(R.id.quesionnaire);
         mOther = popwindow_view.findViewById(R.id.other);
+        mRadioGroup = findViewById(R.id.bottom_tab);
+        mTaskButton = findViewById(R.id.Task);
+        mAccountButton = findViewById(R.id.money);
+        mMyButton = findViewById(R.id.my);
+
+        taskWhite = getResources().getDrawable(R.drawable.icon_task_white);
+        taskGray = getResources().getDrawable(R.drawable.icon_task_gray);
+        accountWhite = getResources().getDrawable(R.drawable.icon_money_white);
+        accountGray = getResources().getDrawable(R.drawable.icon_money_gray);
+        myWhite = getResources().getDrawable(R.drawable.icon_my_white);
+        myGray = getResources().getDrawable(R.drawable.icon_my_gray);
     }
 
     void set_click(){
@@ -79,6 +107,39 @@ public class MainActivity extends AppCompatActivity {
         mOther.setOnClickListener(new PopupWindowClick());
         mQuestionnaire.setOnClickListener(new PopupWindowClick());
 
+        //底部tab点击
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == mTaskButton.getId()) {
+                    mTaskButton.setCompoundDrawablesWithIntrinsicBounds(null, taskWhite, null, null);
+                    mTaskButton.setTextColor(Color.parseColor("#ffdfdf"));
+                    mAccountButton.setCompoundDrawablesWithIntrinsicBounds(null, accountGray, null, null);
+                    mAccountButton.setTextColor(Color.parseColor("#2c4853"));
+                    mMyButton.setCompoundDrawablesWithIntrinsicBounds(null, myGray, null, null);
+                    mMyButton.setTextColor(Color.parseColor("#2c4853"));
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, new TaskFragment());
+                    fragmentTransaction.commit();
+
+                } else if (checkedId == mAccountButton.getId()) {
+                    Intent intent = new Intent(MainActivity.this, MoneyActivity.class);
+                    startActivity(intent);
+                }
+                else if (checkedId == mMyButton.getId()) {
+                    mMyButton.setCompoundDrawablesWithIntrinsicBounds(null, myWhite, null, null);
+                    mMyButton.setTextColor(Color.parseColor("#ffdfdf"));
+                    mTaskButton.setCompoundDrawablesWithIntrinsicBounds(null, taskGray, null, null);
+                    mTaskButton.setTextColor(Color.parseColor("#2c4853"));
+                    mAccountButton.setCompoundDrawablesWithIntrinsicBounds(null, accountGray, null, null);
+                    mAccountButton.setTextColor(Color.parseColor("#2c4853"));
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, new AccountFragment());
+                    fragmentTransaction.commit();
+                }
+                else ;
+            }
+        });
     }
 
     private class PopupWindowClick implements View.OnClickListener{

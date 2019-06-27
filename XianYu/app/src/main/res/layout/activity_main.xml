@@ -67,6 +67,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <RadioGroup
+            android:id="@+id/bottom_tab"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
@@ -92,7 +93,7 @@
                 android:button="@null"
                 android:drawableTop="@drawable/icon_money_gray"
                 android:text="钱包"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#2c4853"
                 android:gravity="center"
                 android:layout_weight="1"/>
 

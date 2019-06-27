@@ -7,6 +7,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+
 public class ReceivedCookiesInterceptor implements Interceptor {
 
     @Override
@@ -32,9 +33,16 @@ public class ReceivedCookiesInterceptor implements Interceptor {
             cookie = cookie.replace(';', ' ');
             cookie = cookie.replace('=', ' ');
             String[] data = cookie.split(" ");
-            Header.setToken(data[1]);
-            Header.setSessionID(data[21]);
-
+            for (int i = 0; i < data.length; i++) {
+                if(data[i].equals("sessionid")) {
+                    Header.setSessionID(data[i + 1]);
+                    i++;
+                }
+                if(data[i].equals("csrftoken")) {
+                    Header.setToken(data[i + 1]);
+                    i++;
+                }
+            }
         }
         return originalResponse;
     }

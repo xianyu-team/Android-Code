@@ -41,6 +41,7 @@ public class SendTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_task);
         init();
+        setClick();
     }
 
     void init() {

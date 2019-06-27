@@ -36,6 +36,9 @@
         <activity android:name=".Activities.AssignmentActivity"></activity>
         <activity android:name=".Activities.FollowActivity"></activity>
         <activity android:name=".Activities.FollowDetailActivity"></activity>
+        <activity android:name=".Activities.TaskDetailActivity"></activity>
+        <activity android:name=".Activities.MoneyActivity"></activity>
+        <activity android:name=".Activities.MoneyHistoryActivity"/>
         <activity android:name=".Activities.SendTaskActivity"></activity>
     </application>
 
