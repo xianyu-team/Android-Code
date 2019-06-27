@@ -6,6 +6,11 @@ import java.util.List;
 public class Batch_Id implements Serializable {
     private List<UserIdsBean> user_ids;
 
+//    Batch_Id(List<UserIdsBean> userIdsBeans) {
+//        user_ids = new ArrayList<>();
+//        setUser_ids(userIdsBeans);
+//    }
+
     public List<UserIdsBean> getUser_ids() {
         return user_ids;
     }
@@ -18,6 +23,9 @@ public class Batch_Id implements Serializable {
         /**
          * user_id : 1
          */
+//        UserIdsBean(int user_id) {
+//            setUser_id(user_id);
+//        }
 
         private int user_id;
 

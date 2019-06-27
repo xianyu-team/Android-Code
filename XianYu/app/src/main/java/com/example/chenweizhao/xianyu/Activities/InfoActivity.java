@@ -360,36 +360,43 @@ public class InfoActivity extends AppCompatActivity {
             }
         }
 
-        public class ReceivedCookiesInterceptor implements Interceptor {
+    public class ReceivedCookiesInterceptor implements Interceptor {
 
-            @Override
-            public Response intercept(@NonNull Chain chain) throws IOException {
-                Log.v("token", Header.getToken());
-                Log.v("token", Header.getSessionID());
-                Request.Builder builder = chain.request().newBuilder()
-                        .removeHeader("Content-Type")//移除旧的
-                        .addHeader("Content-Type", "application/json")//添加真正的头部
-                        .removeHeader("User-Agent")//移除旧的
-                        .addHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:0.9.4)")//添加真正的头部,可以写死，也可以动态获取
-                        .addHeader("X-CSRFtoken", Header.getToken())
-                        .removeHeader("Cookie")
-                        .addHeader("Cookie", "sessionid=" + Header.getSessionID() + ";" + "csrftoken=" + Header.getToken());
+        @Override
+        public Response intercept(@NonNull Chain chain) throws IOException {
 
-                Response originalResponse = chain.proceed(builder.build());
-                if (!originalResponse.headers("set-cookie").isEmpty()) {
-                    StringBuffer sb = new StringBuffer();
-                    for (int i = 0; i < originalResponse.headers("set-cookie").size(); i++) {
-                        sb.append(originalResponse.headers("set-cookie").get(i));
-                        sb.append("; ");
-                    }
-                    String cookie = sb.toString();
-                    cookie = cookie.replace(';', ' ');
-                    cookie = cookie.replace('=', ' ');
-                    String[] data = cookie.split(" ");
-                    Header.setToken(data[1]);
-                    Header.setSessionID(data[21]);
+            Request.Builder builder = chain.request().newBuilder()
+                    .removeHeader("Content-Type")//移除旧的
+                    .addHeader("Content-Type", "application/json")//添加真正的头部
+                    .removeHeader("User-Agent")
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:0.9.4)")//添加真正的头部,可以写死，也可以动态获取
+                    .addHeader("X-CSRFtoken", Header.getToken())
+                    .removeHeader("Cookie")
+                    .addHeader("Cookie", "sessionid=" + Header.getSessionID() + ";" + "csrftoken=" + Header.getToken());
+
+            Response originalResponse = chain.proceed(builder.build());
+            if (!originalResponse.headers("set-cookie").isEmpty()) {
+                StringBuffer sb = new StringBuffer();
+                for (int i = 0; i < originalResponse.headers("set-cookie").size(); i++) {
+                    sb.append(originalResponse.headers("set-cookie").get(i));
+                    sb.append("; ");
                 }
-                return originalResponse;
+                String cookie = sb.toString();
+                cookie = cookie.replace(';', ' ');
+                cookie = cookie.replace('=', ' ');
+                String[] data = cookie.split(" ");
+                for (int i = 0; i < data.length; i++) {
+                    if(data[i].equals("sessionid")) {
+                        Header.setSessionID(data[i + 1]);
+                        i++;
+                    }
+                    if(data[i].equals("csrftoken")) {
+                        Header.setToken(data[i + 1]);
+                        i++;
+                    }
+                }
             }
+            return originalResponse;
         }
+    }
 }
