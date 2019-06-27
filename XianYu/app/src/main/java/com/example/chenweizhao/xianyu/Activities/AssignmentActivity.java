@@ -38,6 +38,7 @@ import retrofit2.http.Path;
 
 public class AssignmentActivity extends AppCompatActivity {
     boolean isPut;
+    int userID;
     ImageView assignmentBack;
     TextView assignmentTitle;
     ListView assignmentItems;
@@ -56,6 +57,7 @@ public class AssignmentActivity extends AppCompatActivity {
     private void init() {
         Bundle bundle = getIntent().getExtras();
         isPut = bundle.getBoolean("isPut");
+        userID = bundle.getInt("userID");
         assignmentBack = findViewById(R.id.assignment_back);
         assignmentTitle = findViewById(R.id.assignment_title);
         assignmentItems = findViewById(R.id.assignment_items);
@@ -103,38 +105,74 @@ public class AssignmentActivity extends AppCompatActivity {
             else {
                 task_type = 1;
             }
-            service.getTask(task_type)
-                    .subscribeOn(Schedulers.io())//请求在新的线程中执行
-                    .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
-                    .subscribe(new DisposableObserver<Assignment>() {
-                        @Override
-                        public void onNext(Assignment assignment) {
-                            if (assignment.getCode() == 200) {
-                                Toast.makeText(AssignmentActivity.this, "查询成功,任务数为：" + assignment.getData().getTasks().size(), Toast.LENGTH_SHORT).show();
-                                for (int i = 0; i < assignment.getData().getTasks().size(); i++) {
-                                    assignmentCommons.add(new AssignmentCommon(assignment.getData().getTasks().get(i).getUser_id(),
-                                            assignment.getData().getTasks().get(i).getTask_id(), assignment.getData().getTasks().get(i).getTask_type(),
-                                            assignment.getData().getTasks().get(i).getTask_sketch(), assignment.getData().getTasks().get(i).getTask_bonus(),
-                                            assignment.getData().getTasks().get(i).getTask_publishDate()
-                                    ));
-                                    assignmentAdapter.notifyDataSetChanged();
+            if(userID == -1) {
+                service.getTask(task_type)
+                        .subscribeOn(Schedulers.io())//请求在新的线程中执行
+                        .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
+                        .subscribe(new DisposableObserver<Assignment>() {
+                            @Override
+                            public void onNext(Assignment assignment) {
+                                if (assignment.getCode() == 200) {
+                                    Toast.makeText(AssignmentActivity.this, "查询成功,任务数为：" + assignment.getData().getTasks().size(), Toast.LENGTH_SHORT).show();
+                                    for (int i = 0; i < assignment.getData().getTasks().size(); i++) {
+                                        assignmentCommons.add(new AssignmentCommon(assignment.getData().getTasks().get(i).getUser_id(),
+                                                assignment.getData().getTasks().get(i).getTask_id(), assignment.getData().getTasks().get(i).getTask_type(),
+                                                assignment.getData().getTasks().get(i).getTask_sketch(), assignment.getData().getTasks().get(i).getTask_bonus(),
+                                                assignment.getData().getTasks().get(i).getTask_publishDate()
+                                        ));
+                                        assignmentAdapter.notifyDataSetChanged();
+                                    }
+                                } else {
+                                    Toast.makeText(AssignmentActivity.this, "查询失败: " + assignment.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                Toast.makeText(AssignmentActivity.this, "查询失败: " + assignment.getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Toast.makeText(AssignmentActivity.this, "访问失败：" + e.toString(), Toast.LENGTH_SHORT).show();
-                            Log.i("test", "onError: " + e.toString());
-                        }
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(AssignmentActivity.this, "访问失败：" + e.toString(), Toast.LENGTH_SHORT).show();
+                                Log.i("test", "onError: " + e.toString());
+                            }
 
-                        @Override
-                        public void onComplete() {
+                            @Override
+                            public void onComplete() {
 
-                        }
-                    });
+                            }
+                        });
+            }
+            else {
+                service.getTaskByID(userID, task_type)
+                        .subscribeOn(Schedulers.io())//请求在新的线程中执行
+                        .observeOn(AndroidSchedulers.mainThread())         //请求完成后在主线程中执行
+                        .subscribe(new DisposableObserver<Assignment>() {
+                            @Override
+                            public void onNext(Assignment assignment) {
+                                if (assignment.getCode() == 200) {
+                                    Toast.makeText(AssignmentActivity.this, "查询成功,任务数为：" + assignment.getData().getTasks().size(), Toast.LENGTH_SHORT).show();
+                                    for (int i = 0; i < assignment.getData().getTasks().size(); i++) {
+                                        assignmentCommons.add(new AssignmentCommon(assignment.getData().getTasks().get(i).getUser_id(),
+                                                assignment.getData().getTasks().get(i).getTask_id(), assignment.getData().getTasks().get(i).getTask_type(),
+                                                assignment.getData().getTasks().get(i).getTask_sketch(), assignment.getData().getTasks().get(i).getTask_bonus(),
+                                                assignment.getData().getTasks().get(i).getTask_publishDate()
+                                        ));
+                                        assignmentAdapter.notifyDataSetChanged();
+                                    }
+                                } else {
+                                    Toast.makeText(AssignmentActivity.this, "查询失败: " + assignment.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Toast.makeText(AssignmentActivity.this, "访问失败：" + e.toString(), Toast.LENGTH_SHORT).show();
+                                Log.i("test", "onError: " + e.toString());
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            }
 
         }
         catch (Exception o) {
@@ -163,6 +201,9 @@ public class AssignmentActivity extends AppCompatActivity {
     public interface taskInterface {
         @GET ("/user/tasks/{t_type}")
         Observable<Assignment> getTask(@Path("t_type") int type);
+
+        @GET ("/user/{u_id}/tasks/{t_type}")
+        Observable<Assignment> getTaskByID(@Path("u_id")int u_id, @Path("t_type") int type);
     }
 
     public class ReceivedCookiesInterceptor implements Interceptor {

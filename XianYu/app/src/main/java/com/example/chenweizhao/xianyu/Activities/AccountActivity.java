@@ -222,6 +222,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isPut", true);
+                bundle.putInt("userID", -1);
                 Intent intent = new Intent(AccountActivity.this, AssignmentActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -233,6 +234,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isPut", false);
+                bundle.putInt("userID", -1);
                 Intent intent = new Intent(AccountActivity.this, AssignmentActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
