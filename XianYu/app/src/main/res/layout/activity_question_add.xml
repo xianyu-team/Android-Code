@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.QuestionAddActivity">
+
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/question_three_btn"
+        android:layout_width="360dp"
+        android:layout_height="60dp"
+        android:background="#ffffff"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:id="@+id/image_question_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_back" />
+
+        <Button
+            android:id="@+id/question_single_choice"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="单选题"
+            android:textSize="20sp"
+            android:background="#ffffff"
+            app:layout_constraintLeft_toRightOf="@id/image_question_back" />
+        <Button
+            android:id="@+id/question_multi_choice"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="多选题"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/question_single_choice"
+            app:layout_constraintRight_toLeftOf="@id/question_completion"/>
+        <Button
+            android:id="@+id/question_completion"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="填空题"
+            android:textSize="20sp"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#8A000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_three_btn" />
+
+
+
+    <EditText
+        android:id="@+id/question_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="问题描述"
+        android:gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_three_btn"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/question_add_questions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/question_description">
+
+        <TextView
+            android:id="@+id/Textview_question_A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A:"
+            android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <TextView
+            android:id="@+id/Textview_question_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B:"
+            android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/Textview_question_A"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <TextView
+            android:id="@+id/Textview_question_C"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="C:"
+            android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/Textview_question_B"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <TextView
+            android:id="@+id/Textview_question_D"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D:"
+            android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/Textview_question_C"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <EditText
+            android:id="@+id/question_A"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="选项A描述"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toRightOf="@id/Textview_question_A"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <EditText
+            android:id="@+id/question_B"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="选项B描述"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toRightOf="@id/Textview_question_B"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Textview_question_A"/>
+        <EditText
+            android:id="@+id/question_C"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="选项C描述"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toRightOf="@id/Textview_question_C"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Textview_question_B"/>
+        <EditText
+            android:id="@+id/question_D"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="选项D描述"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toRightOf="@id/Textview_question_D"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Textview_question_C"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <Button
+        android:id="@+id/perfect_information_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="清空"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/login_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_add_questions"/>
+
+    <Button
+        android:id="@+id/perfect_information_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确认"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/login_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_add_questions"/>
+
+</android.support.constraint.ConstraintLayout>
