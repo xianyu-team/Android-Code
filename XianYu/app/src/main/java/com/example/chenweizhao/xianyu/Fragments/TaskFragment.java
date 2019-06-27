@@ -130,9 +130,12 @@ public class TaskFragment extends Fragment {
                     int user_id = taskItemAdapter.data.get(position).getUser_id();
                     String sketch = taskItemAdapter.data.get(position).getTask_sketch();
                     Intent intent = new Intent(getContext(), TaskDetailActivity.class);
+                    //intent.putExtra("")
                     intent.putExtra("task_id", task_id);
                     intent.putExtra("user_id", user_id);
                     intent.putExtra("sketch", sketch);
+                    intent.putExtra("time", taskItemAdapter.data.get(position).getTask_publishDate());
+                    intent.putExtra("value", taskItemAdapter.data.get(position).getTask_bonus());
                     startActivity(intent);
                 }
             }

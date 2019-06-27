@@ -179,8 +179,8 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "网络未连接", Toast.LENGTH_SHORT).show();
             return;
         }
-        //Login_packet login_packet = new Login_packet(phone, password);
-        Login_packet login_packet = new Login_packet("15016561536", "15016561536");
+        Login_packet login_packet = new Login_packet(phone, password);
+        //Login_packet login_packet = new Login_packet("15016561536", "15016561536");
         try {
             OkHttpClient build = new OkHttpClient.Builder()
                     .connectTimeout(2, TimeUnit.SECONDS)

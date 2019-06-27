@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:text="截止: "
+            android:text="完成: "
             app:layout_constraintLeft_toLeftOf="@+id/user_name"
             app:layout_constraintBottom_toBottomOf="@+id/like"/>
 

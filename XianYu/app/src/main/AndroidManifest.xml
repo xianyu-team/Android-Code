@@ -15,13 +15,14 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Activities.LoginActivity">
+        <activity android:name=".Activities.BeginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.LoginActivity"/>
         <activity android:name=".Activities.AccountActivity"/>
         <activity android:name=".Activities.PerfectInformationActivity" />
         <activity android:name=".Activities.RegisterActivity" />

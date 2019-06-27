@@ -46,7 +46,7 @@ public class ConfirmTaskDeatil implements Serializable {
             int delivery_id;
             int task_id;
             String delivery_detail;
-            String delivery_picked;
+            int delivery_picked;
             int delivery_complished;
             String delivery_complishDate;
 
@@ -66,7 +66,7 @@ public class ConfirmTaskDeatil implements Serializable {
                 this.delivery_id = delivery_id;
             }
 
-            public void setDelivery_picked(String delivery_picked) {
+            public void setDelivery_picked(int delivery_picked) {
                 this.delivery_picked = delivery_picked;
             }
 
@@ -90,7 +90,7 @@ public class ConfirmTaskDeatil implements Serializable {
                 return delivery_id;
             }
 
-            public String getDelivery_picked() {
+            public int getDelivery_picked() {
                 return delivery_picked;
             }
 

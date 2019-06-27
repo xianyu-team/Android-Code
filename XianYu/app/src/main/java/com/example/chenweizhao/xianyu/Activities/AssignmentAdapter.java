@@ -54,6 +54,8 @@ public class AssignmentAdapter extends ArrayAdapter<AssignmentCommon> {
                 intent.putExtra("user_id", assignmentCommon.getUser_id());
                 intent.putExtra("task_id", assignmentCommon.getTask_id());
                 intent.putExtra("sketch", assignmentCommon.getTask_sketch());
+                intent.putExtra("time", assignmentCommon.getTask_publishDate());
+                intent.putExtra("value", assignmentCommon.getTask_bonus());
                 context.startActivity(intent);
             }
         });
