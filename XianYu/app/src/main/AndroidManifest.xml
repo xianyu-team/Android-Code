@@ -14,14 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Activities.AccountActivity">
-
-        </activity>
         <activity android:name=".Activities.PerfectInformationActivity" />
         <activity android:name=".Activities.RegisterActivity" >
 
         </activity>
-        <activity android:name=".Activities.SetPasswordActivity" >
+
+        <activity android:name=".Activities.AccountActivity" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />

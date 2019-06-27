@@ -209,6 +209,18 @@ public class FollowDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("userID", userId);
+                bundle.putBoolean("isPut", true);
+                Intent intent = new Intent(FollowDetailActivity.this, AssignmentActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getInfo() {
