@@ -19,7 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.chenweizhao.xianyu.Fragments.AccountFragment;
+import com.example.chenweizhao.xianyu.Activities.AccountFragment;
 import com.example.chenweizhao.xianyu.Fragments.TaskFragment;
 import com.example.chenweizhao.xianyu.R;
 
