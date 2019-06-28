@@ -19,7 +19,7 @@
 
         </activity>
 
-        <activity android:name=".Activities.AccountActivity" >
+        <activity android:name=".Activities.MainActivity" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -33,6 +33,7 @@
         <activity android:name=".Activities.FollowActivity"></activity>
         <activity android:name=".Activities.FollowDetailActivity"></activity>
         <activity android:name=".Activities.SendTaskActivity"></activity>
+        <activity android:name=".Activities.AccountActivity"></activity>
     </application>
 
 </manifest>
